@@ -78,6 +78,7 @@ class FamilyNetwork(object):
 
     def create_graph(self):
         g = Digraph('G')
+        g.body.append('ranksep=0.7; splines=ortho')
         g.attr('node', shape='box')
 
         # add people nodes
@@ -116,7 +117,7 @@ class FamilyNetwork(object):
                         g.edge(child_ids[i], children[i], dir='none')
                         children_nodes.append(child_ids[i])
                     for i in xrange(1, len(children_nodes)):
-                        _g.edge(children_nodes[i-1], children_nodes[i], dir='none')
+                        _g.edge(children_nodes[i-1], children_nodes[i], dir='none', constraint='false')
                     g.edge(parent_id, children_id, dir='none')
                 else:
                     g.edge(parent_id, children[0], dir='none')
@@ -127,7 +128,5 @@ class FamilyNetwork(object):
 
 family_network = create_family_graph()
 g = family_network.create_graph()
-# print g
-
 g.format = 'pdf' # svg, pdf, png, etc
-g.render('/Users/hideki/temp/family_tree', view=True)
+g.render('./family_tree.out', view=True)
